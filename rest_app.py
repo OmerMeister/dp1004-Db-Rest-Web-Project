@@ -1,3 +1,5 @@
+import json
+
 if __name__ == "__main__":
     from flask import Flask, request, Response, render_template
     from db_connector import db_get, db_post, db_put, db_delete, db_get_all
@@ -51,11 +53,13 @@ if __name__ == "__main__":
             # converting the request's json data to dictionary and then getting the value of the "user_name" key
             # checking that the username is not empty or contains only spaces
             try:
-                user_name = request.json.get('user_name')
+                # get the request, convert it to json, convert the json to dictionary, get "user_name" from the dict
+                user_name = json.loads(request.json)['user_name']
                 if user_name is None or user_name.isspace() or not user_name:
                     return response_creator("{“status”: “error”, “reason”: ”illegal username”}", 500)
             # response in case the request payload is not json readable
             except Exception as e:
+                print(e)
                 return response_creator("{“status”: “error”, “reason”: ”bad json data”}", 500)
             # calling the db method with the userid and username to insert to the db, if id is taken
             # the method will return 0, if not, it will apply and return 1

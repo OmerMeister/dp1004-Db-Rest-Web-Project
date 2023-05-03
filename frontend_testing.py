@@ -12,8 +12,7 @@ driver = webdriver.Chrome(service=Service("C:/Users/Omer/PycharmProjects/chromed
 
 def frontend_test(id):
     print("starting test with id: ", id)
-    #driver.get(f'http://127.0.0.1:5001/get_user_name/{id}')
-    driver.get(f'http://ynet.co.il')
+    driver.get(f'http://127.0.0.1:5001/get_user_name/{id}')
     wait = WebDriverWait(driver, 10)
     wait.until(ec.presence_of_element_located((By.TAG_NAME, "div")))
     print("page finished loading")
