@@ -9,7 +9,6 @@ if __name__ == "__main__":
     def response_creator(content, code):
         response = Response(content, status=code)
         response.content_type = 'application/json'
-        print(content)
         return response
 
 
