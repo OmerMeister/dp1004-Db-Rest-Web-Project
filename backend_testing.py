@@ -3,7 +3,6 @@ import requests
 from db_connector import db_get
 import time
 
-
 def backend_testing(id, username):
     # using post to create a user
     user_obj = {"user_name": username}

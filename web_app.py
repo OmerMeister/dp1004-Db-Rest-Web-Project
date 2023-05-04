@@ -22,9 +22,9 @@ if __name__ == "__main__":
     def default_no_id():
         return render_template('get_user_name.html')
 
-
-
-
+    @app.route('/get_user_name/', )
+    def default_no_id_slash():
+        return render_template('get_user_name.html')
 
 
     @app.route('/get_user_name/<user_id>', methods=['GET'])
