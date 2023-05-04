@@ -1,11 +1,18 @@
 from selenium import webdriver
-from selenium.webdriver.chrome.service import Service
 from selenium.webdriver import Keys
 from selenium.webdriver.common.by import By
 from time import sleep
 from selenium.webdriver.support import expected_conditions as ec
-
 from selenium.webdriver.support.wait import WebDriverWait
+
+'''
+for edge:
+from selenium.webdriver.edge.service import Service
+service = Service('C:/Users/Omer/PycharmProjects/msedgedriver.exe')
+driver = webdriver.Edge(service=service)
+'''
+# for chrome:
+from selenium.webdriver.chrome.service import Service
 
 driver = webdriver.Chrome(service=Service("C:/Users/Omer/PycharmProjects/chromedriver.exe"))
 
@@ -18,14 +25,15 @@ def frontend_test(id):
     print("page finished loading")
     try:
         element = driver.find_element(By.ID, "user")
-        print(f"user found!  the username is "+element.text)
-    except:
-        print("user did not found")
-    sleep(10)
-    driver.quit()
+        print(f"user found!  the username is " + element.text)
+        sleep(10)
+    except Exception as e:
+        print("user did not found, error:", e)
+    finally:
+        driver.quit()
 
 
-frontend_test(18)
+frontend_test(11)
 
 '''
 find_element(By.CLASS_NAME, "er8xn")
