@@ -14,6 +14,10 @@ if __name__ == "__main__":
         return response
 
 
+    def timestamp_str():
+        return datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
+
     # DEFAULT PAGE - just in case you suddenly get into it
     @app.route("/")
     def default():
@@ -37,7 +41,7 @@ if __name__ == "__main__":
             all_users = db_get_all()
             if username == 0:
                 return response_creator(
-                    '{"status": "error", "reason": "no such id", "all_users": "%s"}' % ( all_users), 500)
+                    '{"status": "error", "reason": "no such id", "all_users": "%s"}' % (all_users), 500)
 
             else:
                 return response_creator(
@@ -49,12 +53,13 @@ if __name__ == "__main__":
         # the provided json data is one key:value like {"user_name": "john"}
         elif request.method == 'POST':
             # getting current time as a string for the creation_time column
-            current_time = str(datetime.datetime.now())
+            current_time = timestamp_str()
             # converting the request's json data to dictionary and then getting the value of the "user_name" key
             # checking that the username is not empty or contains only spaces
             try:
-                # get the request, convert it to json, convert the json to dictionary, get "user_name" from the dict
-                user_name = json.loads(request.json)['user_name']
+
+                # get the request, convert it to dict, get "user_name" from the dict
+                user_name = (request.json)['user_name']
                 if user_name is None or user_name.isspace() or not user_name:
                     return response_creator("{“status”: “error”, “reason”: ”illegal username”}", 500)
             # response in case the request payload is not json readable
@@ -64,17 +69,20 @@ if __name__ == "__main__":
             # calling the db method with the userid and username to insert to the db, if id is taken
             # the method will return 0, if not, it will apply and return 1
             post_result = db_post(user_id, user_name, current_time)
-            if post_result == 1:
+            if post_result == -1:
                 return response_creator(f"“status”: “ok”, “user_added”: {user_name}", 200)
             if post_result == 0:
-                return response_creator("{“status”: “error”, “reason”: ”id already exists”}", 500)
+                return response_creator("{“status”: “error”, “reason”: ”db error”}", 500)
+            else:
+                return response_creator(f"“status”: “ok”, “user_added”: {user_name}, “id changed to”: {post_result}",
+                                        200)
 
         # PUT METHOD
         # getting an id and json data to update with
         # the provided json data is one key:value like {"user_name": "john"}. creation time will also be updated.
         if request.method == 'PUT':
             # getting current time as a string for the creation_time column
-            current_time = str(datetime.datetime.now())
+            current_time = timestamp_str()
             # converting the request's json data to dictionary and then getting the value of the "user_name" key
             # checking that the username is not empty or contains only spaces
             try:

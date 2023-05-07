@@ -26,19 +26,19 @@ def combined_testing(id, username):
     backendtest_bool = False
     dbtest_bool = False
     frontendtest_bool = False
-    # sections 1,2
-    user_obj = {"user_name": username}
+    # sections 1,2 - backendtest
+    user_obj = '{"user_name": "%s"} ' % username
     try:
-        requests.post(f'http://127.0.0.1:5000/users/{id}', json=json.dumps(user_obj)) #post request
+        requests.post(f'http://127.0.0.1:5000/users/{id}', json=json.loads(user_obj))
         time.sleep(0.5)
         response = requests.get(f'http://127.0.0.1:5000/users/{id}')
-        rest_returned_username = json.loads(response.text).get('user_name')
+        rest_returned_username = response.json()['user_name']
         if (rest_returned_username == username):
             backendtest_bool = True
     except Exception as e:
         print("backend test failed with this error: ", e)
         raise Exception("backend test failed")
-    # section 3
+    # section 3 - dbtest
     try:
         cursor.execute(f"SELECT * FROM users where user_id='{id}';")
         db_user_name = cursor.fetchone()[1]  # fetchone returns a tuple
@@ -47,7 +47,7 @@ def combined_testing(id, username):
     except Exception as e:
         print("db test failed with this error: ", e)  # for debugging
         raise Exception("db test failed")
-    # section 4,5,6
+    # section 4,5,6 - frontendtest
     try:
         driver.get(f'http://127.0.0.1:5001/get_user_name/{id}')
         element = driver.find_element(By.ID, "user")
@@ -63,4 +63,4 @@ def combined_testing(id, username):
         print("all tests passed!")
 
 
-combined_testing(51, "mike pearson")
+combined_testing(58, "mike pearson")

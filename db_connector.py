@@ -8,6 +8,17 @@ conn.autocommit(True)
 cursor = conn.cursor()
 
 
+# method is being called at post method when id already exists in. returns id which is the highest id+1
+def taken_id_handler():
+    try:
+        cursor.execute(f"SELECT MAX(user_id) FROM users;")
+        user_name = cursor.fetchone()[0]  # fetchone returns a tuple
+        return user_name + 1
+    except Exception as e:
+        print("db error: ", e)  # for debugging
+        return 0
+
+
 # serving the GET method, the "cursor.fetchone" returns a tuple
 # if any error happens instead for getting a value from the db, the function
 # will return 0
@@ -35,6 +46,7 @@ def db_get_all():
 # serving the POST method, checks that the id is a number and not already taken
 # then, send the request to the db. if all goes well, returns 1 else returns 0
 def db_post(user_id, user_name, creation_time):
+    id_changed = False
     try:
         # checks that the id input is a number
         user_id = int(user_id)
@@ -44,14 +56,18 @@ def db_post(user_id, user_name, creation_time):
         print("db: int conversion error")  # for debugging
         return 0
     if cursor.rowcount > 0:
-        print("db: id already exists.")  # for debugging
-        return 0
+        user_id = taken_id_handler()  # changing the user_id to a free one
+        print(f"db: id already exists. allocating id {user_id} instead")  # for debugging
+        id_changed = True
     try:
         cursor.execute(
             f"INSERT INTO users (user_id, user_name, creation_date) VALUES ('{user_id}', '{user_name}', '{creation_time}');")
-        return 1
+        if (id_changed == True):
+            return user_id # returns the id when id was changed
+        else:
+            return -1  # returns '-1' when succeded without changing the id
     except Exception as e:
-        print("db error occurred: ", e)  # for debugging
+        print("db error occurred: ", e)  # returns 0 when unknown error happns
         return 0
 
 

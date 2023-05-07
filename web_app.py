@@ -5,7 +5,6 @@ if __name__ == "__main__":
 
     app = Flask(__name__)
 
-
     def response_creator(content, code):
         response = Response(content, status=code)
         response.content_type = 'application/json'
