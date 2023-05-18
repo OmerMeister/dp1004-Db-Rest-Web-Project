@@ -39,6 +39,6 @@ pipeline {
                 echo "squence ended"
       }
     }    
-    #closing braces
+    //closing braces
   }
 }
