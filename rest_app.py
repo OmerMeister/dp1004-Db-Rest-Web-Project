@@ -4,6 +4,8 @@ if __name__ == "__main__":
     from flask import Flask, request, Response, render_template
     from db_connector import db_get, db_post, db_put, db_delete, db_get_all
     import datetime
+    import os
+    import signal
 
     app = Flask(__name__)
 
@@ -17,6 +19,11 @@ if __name__ == "__main__":
     def timestamp_str():
         return datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
+
+    @app.route('/stop_server')
+    def stop_server():
+        os.kill(os.getpid(), signal.CTRL_C_EVENT)
+        return 'Server stopped'
 
     # DEFAULT PAGE - just in case you suddenly get into it
     @app.route("/")

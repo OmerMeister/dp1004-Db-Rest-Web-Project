@@ -36,4 +36,4 @@ def frontend_test(id):
         driver.quit()
 
 
-frontend_test(53)
+frontend_test(10)

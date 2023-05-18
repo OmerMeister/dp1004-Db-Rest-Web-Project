@@ -2,6 +2,8 @@ if __name__ == "__main__":
     from random import randint
     import requests  # importing the general requests lib to make requests to the backend
     from flask import Flask, url_for, request, Response, render_template, json
+    import os
+    import signal
 
     app = Flask(__name__)
 
@@ -10,6 +12,11 @@ if __name__ == "__main__":
         response.content_type = 'application/json'
         return response
 
+
+    @app.route('/stop_server')
+    def stop_server():
+        os.kill(os.getpid(), signal.CTRL_C_EVENT)
+        return 'Server stopped'
 
     # DEFAULT PAGE - just in case you suddenly get into it
     @app.route("/")
