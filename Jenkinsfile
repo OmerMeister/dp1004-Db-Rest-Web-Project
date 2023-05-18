@@ -4,7 +4,7 @@ pipeline {
   stages {
     stage('Checkout') {
       steps {
-        git 'https://github.com/OmerMeister/GitExercise.git'
+        git 'https://github.com/OmerMeister/Db_Rest_Web-Project.git'
       }
     }
 
