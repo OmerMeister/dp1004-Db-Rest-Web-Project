@@ -7,7 +7,11 @@ pipeline {
         git 'https://github.com/OmerMeister/Db_Rest_Web-Project.git'
       }
     }
-
+    stage('install prerequisits') {
+      steps {
+                bat 'python -m pip install requests'
+      }
+    }
     stage('Run rest_app.py') {
       steps {
                 bat 'start/min python rest_app.py'
