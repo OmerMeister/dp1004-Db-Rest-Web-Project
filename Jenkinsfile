@@ -9,7 +9,7 @@ pipeline {
     }
     stage('install prerequisits') {
       steps {
-                //bat 'python -m pip install requests'
+                bat 'python -m pip install requests'
       }
     }
                 stage('Run clean_environment.py') {
