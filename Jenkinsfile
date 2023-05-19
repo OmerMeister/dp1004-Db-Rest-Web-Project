@@ -32,18 +32,17 @@ pipeline {
                 bat 'python frontend_testing.py'
       }
     }
-            stage('Run clean_environment.py') {
-      steps {
-                bat 'python clean_environment.py'
-                echo "squence ended"
-      }
-    }   
             stage('Run combined_testing.py') {
       steps {
                 bat 'python combined_testing.py'
       }
     }
- 
+             stage('Run clean_environment.py') {
+      steps {
+                bat 'python clean_environment.py'
+                echo "squence ended"
+      }
+    }   
     //closing braces
   }
 }
