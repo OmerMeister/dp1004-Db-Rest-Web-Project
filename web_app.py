@@ -7,16 +7,24 @@ if __name__ == "__main__":
 
     app = Flask(__name__)
 
+
     def response_creator(content, code):
         response = Response(content, status=code)
         response.content_type = 'application/json'
         return response
 
 
+    @app.errorhandler(404)
+    def page_not_found(error):
+        # Custom response or redirect for 404 errors
+        return render_template('404.html', ), 404
+
+
     @app.route('/stop_server')
     def stop_server():
         os.kill(os.getpid(), signal.CTRL_C_EVENT)
         return 'Server stopped'
+
 
     # DEFAULT PAGE - just in case you suddenly get into it
     @app.route("/")
@@ -27,6 +35,7 @@ if __name__ == "__main__":
     @app.route('/get_user_name', )
     def default_no_id():
         return render_template('get_user_name.html')
+
 
     @app.route('/get_user_name/', )
     def default_no_id_slash():

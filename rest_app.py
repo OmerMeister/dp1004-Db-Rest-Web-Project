@@ -20,10 +20,17 @@ if __name__ == "__main__":
         return datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
 
+    @app.errorhandler(404)
+    def page_not_found(error):
+        # Custom response or redirect for 404 errors
+        return render_template('404.html', ), 404
+
+
     @app.route('/stop_server')
     def stop_server():
         os.kill(os.getpid(), signal.CTRL_C_EVENT)
         return 'Server stopped'
+
 
     # DEFAULT PAGE - just in case you suddenly get into it
     @app.route("/")
