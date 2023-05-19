@@ -39,7 +39,7 @@ pipeline {
     }
                 stage('Run clean_environment.py') {
       steps {
-                bat 'python clean_environment.py'
+                //bat 'python clean_environment.py'
                 echo "squence ended"
       }
     }    
