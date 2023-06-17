@@ -44,7 +44,7 @@ if __name__ == "__main__":
 
     @app.route('/get_user_name/<user_id>', methods=['GET'])
     def get_user_name(user_id):
-        response = requests.get(f'http://127.0.0.1:5000/users/{user_id}')
+        response = requests.get(f'http://rest-cont:5000/users/{user_id}')
         try:
             dict_obj = response.json()
             username = dict_obj["user_name"]
@@ -65,4 +65,4 @@ if __name__ == "__main__":
 
     # host is pointing at local machine address
     # debug is used for more detailed logs + hot swapping
-    app.run(host='127.0.0.1', debug=True, port=5001)
+    app.run(debug=True,host='web-cont', port=5001)

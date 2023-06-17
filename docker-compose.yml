@@ -1,0 +1,29 @@
+version: '3'
+services:
+  service1:
+    build:
+      context: ./
+      dockerfile: dockerfile_rest.dockerfile
+    image: rest-img
+    container_name: rest-cont
+    hostname: rest-cont
+    ports:
+      - 5000:5000
+    networks:
+      - project_network1
+
+  service2:
+    build:
+      context: ./
+      dockerfile: dockerfile_web.dockerfile
+    image: web-img
+    container_name: web-cont
+    hostname: web-cont
+    ports:
+      - 5001:5001
+    networks:
+      - project_network1
+
+networks:
+  project_network1:
+    driver: bridge

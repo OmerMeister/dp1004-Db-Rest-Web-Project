@@ -128,4 +128,4 @@ if __name__ == "__main__":
 
     # host is pointing at local machine address
     # debug is used for more detailed logs + hot swapping
-    app.run(host='127.0.0.1', debug=True, port=5000)
+    app.run(debug=True,host='rest-cont', port=5000)
